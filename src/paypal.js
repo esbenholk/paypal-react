@@ -1,3 +1,5 @@
+
+
 import React, {useRef} from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import emailjs from '@emailjs/browser';
@@ -15,19 +17,23 @@ export default function PaypalContainer() {
   const successContainer = useRef();
   const failContainer = useRef();
 
-  const sendEmail = (e) => {
-    e.preventDefault();
+  const sendEmail = () => {
 
-    console.log(process.env.REACT_APP_EMAIL_SERVICEID, process.env.REACT_APP_EMAIL_TEMPLATEID, form.current, process.env.REACT_APP_EMAIL_PUBLICKEY);
+    if(form.current != null){
+        emailjs.sendForm(process.env.REACT_APP_EMAIL_SERVICEID, process.env.REACT_APP_EMAIL_TEMPLATEID, form.current, process.env.REACT_APP_EMAIL_PUBLICKEY)
+        .then((result) => {
+            console.log(result.text);
+        }, (error) => {
+            console.log(error.text);
+        });
+    } else{
+        alert("fill in ur email plz");
+    }
 
-    emailjs.sendForm(process.env.REACT_APP_EMAIL_SERVICEID, process.env.REACT_APP_EMAIL_TEMPLATEID, form.current, process.env.REACT_APP_EMAIL_PUBLICKEY)
-      .then((result) => {
-          console.log(result.text);
-      }, (error) => {
-          console.log(error.text);
-      });
+ 
 
   };
+
 
   function createOrder(data, actions) {
     // throw new Error("force the createOrder callback to fail");
@@ -36,17 +42,26 @@ export default function PaypalContainer() {
         {
           amount,
           shipping: {
-
+            // name: "Hello Brother",
+            // method: "United States Postal Service",
             name: {
-              full_name: "John"
+              full_name: custumerEmail.current.value
             },
             type: "SHIPPING",
             address: {
-              address_line_1: custumerEmail.current.value
+              address_line_1: custumerEmail.current.value,
+              address_line_2: "its a virtual product",
+              admin_area_2: "like art",
+              admin_area_1: "but not",
+              postal_code: "2200",
+              country_code: "DK"
             }
           }
         }
       ]
+      // application_context: {
+      //   shipping_preference: "NO_SHIPPING"
+      // }
     });
   }
 
@@ -66,7 +81,7 @@ export default function PaypalContainer() {
     //   console.log(details);
     //   console.log(details.purchase_units[0].payments.authorizations[0].id);
     // });
-    form.current.onSubmit();
+    sendEmail();
     paypalContainer.current.style.display = "none";
     successContainer.current.style.display = "block"; 
   }
@@ -78,8 +93,9 @@ export default function PaypalContainer() {
   return (
     <>
     <div ref={paypalContainer}>
+        <h1 className='blink'>JUST ADD YOUR EMAIL</h1>
         <form ref={form} onSubmit={sendEmail}>
-            <input type="email" className="email" name="user_email" />
+            <input ref={custumerEmail} type="email" className="email" name="user_email" />
         </form>
         <p>and pay me 10 [default valuta]</p>
       <PayPalScriptProvider

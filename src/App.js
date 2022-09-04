@@ -3,7 +3,6 @@ import {useRef} from "react";
 
 
 import PaypalContainer from "./paypal.js"
-import { Email } from "./email.js"
 
 function App() {
 

@@ -2,19 +2,62 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+#video{
+  position: fixed;
+  height: 100%;
+  left: 0;
+  right: 0;
+  top:0;
+  bottom: 0;
+  width: 100%;
+  object-fit: fill;
+}
+.popup{
+  position: fixed;
+  width: 70%;
+  max-width: 700px;
+  height: 50%;
+  max-height: 700px;
+  background-color: #33ff00;
+  border-radius: 20px;
+  box-shadow: -1px 0px 86px 17px rgba(0,255,25,1);
+  -webkit-box-shadow: -1px 0px 86px 17px rgba(0,255,25,1);
+  -moz-box-shadow: -1px 0px 86px 17px rgba(0,255,25,1);
+  border: 2px solid white;
+
+
+}
+.popup .header{
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0;
+  background-color: #c3c3c3;
+  border-radius: 20px 20px 0 0;
+
+}
+.popup .header p{
+  position: relative;
+  margin: 0;
+  margin-left: 10px;
+
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.button{
+  margin: 0;
+  padding: 5px;
+  background-color: #c3c3c3;
+  border-color: white;
+  font-size: 10vw;
+  word-wrap: break-word;
+  color: white;
+  box-shadow: -1px 0px 76px -126px rgba(255,255,255,1);
+  -webkit-box-shadow: -1px 0px 76px -126px rgba(255,255,255,1);
+  -moz-box-shadow: -1px 0px 76px -126px rgba(255,255,255,1);
 }
-
 .App-header {
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -24,15 +67,59 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+h1{
+  margin: 0;
+  font-size: 4vw;
+}
+h1:first-of-type{
+  margin: 0;
+  font-size: 10vw;
+  word-wrap: break-word;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
+.content{
+  height: 80%;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-content: space-around;
+}
+
+.paycontent{
+  display: none;
+}
+
+.blink {
+  animation: blink-animation 0.1s steps(5, start) infinite;
+  -webkit-animation: blink-animation 0.1s steps(5, start) infinite;
+}
+@keyframes blink-animation {
   to {
-    transform: rotate(360deg);
+    visibility: hidden;
   }
+}
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+
+
+@media only screen and (min-width: 700px){
+  h1{
+    margin: 0;
+    font-size: 2vw;
+  }
+  h1:first-of-type{
+    margin: 0;
+    font-size: 4vw;
+    word-wrap: break-word;
+  }
+  .button{
+
+    font-size: 4vw;
+
+  }
+  
 }

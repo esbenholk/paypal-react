@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useRef} from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import emailjs from '@emailjs/browser';
 
 export default function PaypalContainer() {
   const PAYMENT_CURRENCY = "USD";
@@ -7,6 +8,23 @@ export default function PaypalContainer() {
     currency_code: PAYMENT_CURRENCY,
     value: "10"
   };
+
+  const form = useRef();
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    console.log(process.env.REACT_APP_EMAIL_SERVICEID, process.env.REACT_APP_EMAIL_TEMPLATEID, form.current, process.env.REACT_APP_EMAIL_PUBLICKEY);
+
+    emailjs.sendForm(process.env.REACT_APP_EMAIL_SERVICEID, process.env.REACT_APP_EMAIL_TEMPLATEID, form.current, process.env.REACT_APP_EMAIL_PUBLICKEY)
+      .then((result) => {
+          console.log(result.text);
+      }, (error) => {
+          console.log(error.text);
+      });
+
+  };
+
   function createOrder(data, actions) {
     // throw new Error("force the createOrder callback to fail");
     return actions.order.create({
@@ -90,12 +108,17 @@ export default function PaypalContainer() {
     //   console.log(details);
     //   console.log(details.purchase_units[0].payments.authorizations[0].id);
     // });
+    form.current.onSubmit();
   }
   function onError(err) {
     console.error("error from the onError callback", err);
   }
   return (
     <>
+        <form ref={form} onSubmit={sendEmail}>
+            <label>Email</label>
+            <input type="email" name="user_email" />
+        </form>
       <PayPalScriptProvider
         options={{
           "client-id": process.env.REACT_APP_PAYPALID,

@@ -33,7 +33,7 @@ function App() {
             <button className="button" onClick={changeContent}>PURCHASE CONTENT</button>
           </div>
           <div ref={payContent} className='content paycontent'>
-           
+            <h1 className='blink'>JUST ADD YOUR EMAIL</h1>
             <PaypalContainer/>
           </div>
 

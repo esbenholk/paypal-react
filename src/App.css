@@ -40,9 +40,15 @@
 }
 .popup .header p{
   position: relative;
-  margin: 0;
   margin-left: 10px;
+  color: white;
 
+}
+
+p{
+  margin: 0;
+  font-size: 15px;
+  color: #c3c3c3;
 }
 
 .button{
@@ -86,8 +92,14 @@ h1:first-of-type{
   align-content: space-around;
 }
 
+.hidden,
 .paycontent{
   display: none;
+}
+
+.email{
+  height: 30px;
+  margin: 20px;
 }
 
 .blink {

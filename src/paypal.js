@@ -10,6 +10,10 @@ export default function PaypalContainer() {
   };
 
   const form = useRef();
+  const custumerEmail = useRef();
+  const paypalContainer = useRef();
+  const successContainer = useRef();
+  const failContainer = useRef();
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -32,26 +36,17 @@ export default function PaypalContainer() {
         {
           amount,
           shipping: {
-            // name: "Hello Brother",
-            // method: "United States Postal Service",
+
             name: {
               full_name: "John"
             },
             type: "SHIPPING",
             address: {
-              address_line_1: "test",
-              address_line_2: "test",
-              admin_area_2: "asd",
-              admin_area_1: "CA",
-              postal_code: "95131",
-              country_code: "US"
+              address_line_1: custumerEmail.current.value
             }
           }
         }
       ]
-      // application_context: {
-      //   shipping_preference: "NO_SHIPPING"
-      // }
     });
   }
 
@@ -72,16 +67,21 @@ export default function PaypalContainer() {
     //   console.log(details.purchase_units[0].payments.authorizations[0].id);
     // });
     form.current.onSubmit();
+    paypalContainer.current.style.display = "none";
+    successContainer.current.style.display = "block"; 
   }
   function onError(err) {
     console.error("error from the onError callback", err);
+    paypalContainer.current.style.display = "none";
+    failContainer.current.style.display = "block"; 
   }
   return (
     <>
+    <div ref={paypalContainer}>
         <form ref={form} onSubmit={sendEmail}>
-            <label>Email</label>
-            <input type="email" name="user_email" />
+            <input type="email" className="email" name="user_email" />
         </form>
+        <p>and pay me 10 [default valuta]</p>
       <PayPalScriptProvider
         options={{
           "client-id": process.env.REACT_APP_PAYPALID,
@@ -101,6 +101,15 @@ export default function PaypalContainer() {
         />
       </PayPalScriptProvider>
  
+    </div>
+    <div className="hidden" ref={successContainer}>
+        <h1>THANK U. CHECK UR MAIL. U'VE GOT PRODUCT</h1>
+    </div>
+
+    <div className="hidden" ref={failContainer}>
+        <h1 className="blinking">failed</h1>
+        <h1>we all fail sometimes</h1>
+    </div>
     </>
   );
 }
